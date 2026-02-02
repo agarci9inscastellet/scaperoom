@@ -131,7 +131,15 @@
   }
 
   // Find the question in the data
+  if (questionId==0){
+       if (destination) {
+        Toastify({text: "Congrats!! You can cross this gate",duration: 3000, backgroundColor: "green"}).showToast();
+        window.location.href = destination;
+      }else{
+        Toastify({text: "Sorry, this gate DOES'NT GO anywhere!!",duration: 3000, backgroundColor: "darkred"}).showToast();
 
+      }
+  }
   const questionObj = questions[questionId];
 
   if (!questionObj) {
@@ -236,4 +244,4 @@ function catchableObject(targetSelector, varName, varValue = varName) {
     updateStatusBar();
   });
 
-  alert("bbb");
+  alert("cc");
