@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Random A-Frame World</title>
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script src="assets/scaperoom.js"></script>
+
+
+<script>
+    localStorage.setItem('username', 'Alex');
+    score = localStorage.getItem('score')
+    key1 =localStorage.getItem('key1')
+    key2 =localStorage.getItem('key1')
+console.log(key1,key2);
+
+
+
+</script>
+
+
+</head>
+
+<body>
+<a-scene  cursor="rayOrigin: mouse" background="color: #ECECEC">
+
+  <!-- ASSETS -->
+  <a-assets>
+    <!-- Sky images -->
+    <img id="sky1" src="https://images.unsplash.com/photo-1501785888041-af3ef285b470">
+
+    <!-- Ground textures -->
+    <img id="ground2" src="https://images.unsplash.com/photo-1528825871115-3581a5387919">
+  </a-assets>
+
+  <!-- CAMERA -->
+  <a-entity position="0 1.6 5">
+    <a-camera></a-camera>
+  </a-entity>
+
+  <!-- SKY -->
+  <a-sky id="sky"></a-sky>
+
+  <!-- LIGHTS -->
+  <a-light type="ambient" intensity="0.5"></a-light>
+  <a-light type="directional" position="5 10 5"></a-light>
+
+      <a-entity id="door" 
+        gltf-model="url(assets/opening.glb)"
+        position="0 1.5 -3"
+        rotation="0 90 0"
+        scale="01 01 01 "
+        animation-mixer="clip: *"
+
+        visible = "true">
+      </a-entity>
+
+      <a-entity id="nums" 
+        gltf-model="url(assets/grua.glb)"
+        position="3 1.5 3"
+        rotation="0 0 0"
+        scale="0.01 0.01 0.01 "
+        visible = "true">
+      </a-entity>      
+
+</a-scene>
+
+<script>
+  const skyImages = ['#sky1'];
+  const groundImages = ['#ground2'];
+
+
+  questionGate("#door", 0, "sala1.html", "status_key1");
+  questionGate("#nums", 0, "sala3.html", "status_key2");
+
+  
+  // Call the function on load
+
+
+
+
+  const scene = document.querySelector('a-scene');
+
+  // Random sky
+  document.querySelector('#sky').setAttribute(
+    'src',
+    skyImages[Math.floor(Math.random() * skyImages.length)]
+  );
+
+  // Ground
+  const ground = document.createElement('a-plane');
+  ground.setAttribute('rotation', '-90 0 0');
+  ground.setAttribute('width', 50);
+  ground.setAttribute('height', 50);
+  ground.setAttribute('material', {
+    src: groundImages[Math.floor(Math.random() * groundImages.length)],
+    repeat: '10 10'
+  });
+  scene.appendChild(ground);
+
+  // Random objects
+  for (let i = 0; i < 20; i++) {
+    const box = document.createElement('a-box');
+
+    box.setAttribute('position', {
+      x: (Math.random() - 0.5) * 30,
+      y: Math.random() * 3 + 0.5,
+      z: (Math.random() - 0.5) * 30
+    });
+
+    box.setAttribute('rotation', {
+      x: 0,
+      y: Math.random() * 360,
+      z: 0
+    });
+
+    box.setAttribute('scale', {
+      x: Math.random() + 0.5,
+      y: Math.random() * 3 + 0.5,
+      z: Math.random() + 0.5
+    });
+
+    box.setAttribute('color', `hsl(${Math.random() * 360}, 70%, 60%)`);
+
+    scene.appendChild(box);
+  }
+
+// //updateStatusBar();
+//     let questions = [];
+//     loadQuestions('assets/questions.json').then(data => {
+//       questions = data;
+//     }); 
+
+
+</script>
+
+
+
+</body>
+</html>
