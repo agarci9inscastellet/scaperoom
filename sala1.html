@@ -1,16 +1,17 @@
 <html>
   <head>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  <script src="https://agarci9inscastellet.github.io/scaperoom/assets/scaperoom.js"></script>
+  <!-- <script src="https://agarci9inscastellet.github.io/scaperoom/js/scaperoom.js"></script> -->
+  <script src="js/scaperoom.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
   <script>
     
     
-    if (!new URLSearchParams(window.location.search).get('clear')){
-      resetStatus();
-    }
+    // if (!new URLSearchParams(window.location.search).get('clear')){
+    //   resetStatus();
+    // }
 
   </script>
   </head>
@@ -71,15 +72,11 @@
 
 
 <script>
- 
-
-
-  catchableObject("#key1","status_key1", "(🔑1)");
- // catchableObject("#key2","status_key2", "🔐");
-  catchableObject("#key2","status_key1", false);
-  questionGate("#door", 0, "sala2.html", "status_key1");
-  clickShows("#button", "#door");
-
+   catchableObject("#key1","status_key1", "(🔑1)");
+//   catchableObject("#key2","status_key2", "🔐");
+//   catchableObject("#key2","status_key1", false);
+//   questionGate("#door", 0, "sala2.html", "status_key1");
+//   clickShows("#button", "#door");
 </script>
 
 

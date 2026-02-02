@@ -235,3 +235,5 @@ function catchableObject(targetSelector, varName, varValue = varName) {
 
     updateStatusBar();
   });
+
+  alert("aaa");
