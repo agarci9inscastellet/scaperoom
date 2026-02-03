@@ -15,10 +15,7 @@
   </head>
   <body>
   <a-scene cursor="rayOrigin: mouse" raycaster="objects: .aframe-clickable">
-      <!-- <a-camera
-    raycaster="objects: .aframe-clickable"
-    cursor="rayOrigin: mouse">
-  </a-camera> -->
+
         <a-assets>
           <img id="fons" src="assets/fons1.jpg" />
           <img id="texturaterra" src="assets/texturaterra.jpg" />
@@ -28,7 +25,7 @@
         </a-assets>
         <a-sky src="#fons"></a-sky>
         <a-plane position="0 0 0" rotation="-90 0 0" width="100" height="100" src="#texturaterra"></a-plane>
-        <a-plane     position="-1 4 -8" rotation="0 0 0" width="8" height="2"  src="#guernica"></a-plane>
+        <a-plane position="-1 4 -8" rotation="0 0 0" width="8" height="2"  src="#guernica"></a-plane>
         <a-box id="esmou"      position="-4 3 0" rotation="0 0 50"  src="#cara" depth="1" height="1" width="1"></a-box>
         <a-dodecahedron  class="clickable" id="dode" position="3 3 -30"  rotation="0 0 0" radius="3" src="#bicicletes"></a-dodecahedron>
 
