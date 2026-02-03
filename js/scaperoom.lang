@@ -1,0 +1,10 @@
+export const languages = {
+  en: {
+    hello: "Hello",
+    bye: "Goodbye"
+  },
+  es: {
+    hello: "Hola",
+    bye: "Adiós"
+  }
+};

@@ -113,7 +113,8 @@ function showElement(targetSelector){
 
   // Check if the required localStorage variable exists and is not false
   if (required && (localStorage.getItem(required) === 'false' || localStorage.getItem(required) === null)) {
-    let t = `Access denied: ${required} requirement not met`;
+    //let t = `Access denied: ${required} requirement not met`;
+    let t = `Accés denegat: Has de trobar ${required}`;
     console.log(t);
     
     //alert(t);
@@ -125,18 +126,21 @@ function showElement(targetSelector){
   // Find the question in the data
   if (questionId==0){
        if (destination) {
-        Toastify({text: "Congrats!! You can cross this gate",duration: 3000, style: {background: 'green'}}).showToast();
+        //Toastify({text: "Congrats!! You can cross this gate",duration: 3000, style: {background: 'green'}}).showToast();
+        Toastify({text: "Felicitats!! Pots passar aquesta porta",duration: 3000, style: {background: 'green'}}).showToast();
         window.location.href = destination;
         return;
       }else{
-        Toastify({text: "Sorry, this gate DOES'NT GO anywhere!!",duration: 3000, style: {background: 'darkred'}}).showToast();
+        //Toastify({text: "Sorry, this gate DOES'NT GO anywhere!!",duration: 3000, style: {background: 'darkred'}}).showToast();
+        Toastify({text:"Ho sento! Aquesta porta no porta enlloc",duration: 3000, style: {background: 'darkred'}}).showToast();
 
       }
   }
   const questionObj = questions[questionId];
 
   if (!questionObj) {
-    console.error(`Question with ID ${questionId} not found`);
+    //console.error(`Question with ID ${questionId} not found`);
+    console.error(`La pregunta ID ${questionId} no s'ha trobat`);
     return false;
   }
 
@@ -165,7 +169,8 @@ function showElement(targetSelector){
 
     return true;
   } else {
-    let t="Incorrect answer! Access denied.";
+    //let t="Incorrect answer! Access denied.";
+    let t="Resposta incorrecta! No pots passar!";
     // Wrong answer - show message and block passage
     //alert("Incorrect answer! Access denied.");
     Toastify({text: t,duration: 3000,  style: {background: 'darkred'}}).showToast();
