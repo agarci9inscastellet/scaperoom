@@ -1,3 +1,18 @@
+
+
+function hideElement(targetSelector){
+    target = document.querySelector(targetSelector);
+
+      target.setAttribute('visible', false);
+      target.classList.remove('aframe-clickable');
+}
+function showElement(targetSelector){
+    target = document.querySelector(targetSelector);
+
+      target.setAttribute('visible', true);
+      target.classList.add('aframe-clickable');
+}
+    
     let questions = [];    
     function loadToastify() {
         // Load CSS
@@ -30,32 +45,6 @@
       }
     }
 
-
-
- // Function to make target visible when trigger is clicked
-  function clickShows(triggerSelector, targetSelector) {
-    trigger = document.querySelector(triggerSelector);
-    target = document.querySelector(targetSelector);
-    trigger.addEventListener("click", () => {
-      target.setAttribute('visible', true);
-    });
-  }
-
-  // Function to check a question and redirect if correct
-  function checkQuestion(questionId, location) {
-    if (questions.length === 0) {
-     // alert("Questions not loaded yet. Try again.");
-      Toastify({text: t,duration: 3000}).showToast();
-      return;
-    }
-
-    let answer = prompt(questions[questionId].question);
-    if (answer && answer.toLocaleLowerCase() == questions[questionId].answer) {
-      document.location = location;
-    }
-  }
-
-
   function resetStatus(){
         for (let i = 0; i < localStorage.length; i++) {
           const key = localStorage.key(i);
@@ -87,6 +76,7 @@
           padding-right: 50px;
           font-size: 18px;
         }
+        .status-key{border:2px solid white}
       `;
       document.head.appendChild(style);
     }
@@ -99,23 +89,25 @@
       document.body.appendChild(statusBar);
     }
     
-    let statusContent = 'Status: ';
+    let statusContent = '';
 
     for (let i = 0; i < localStorage.length; i++) {
           const key = localStorage.key(i);
           const val = localStorage.getItem(key);
           if (key.startsWith("status") && val != "false"){
-              statusContent += val;
+              statusContent += '<span class="status-key">'+ val + '</span>' ;
           }
 
     }
 
-    statusBar.innerText = statusContent;
+    statusBar.innerHTML = statusContent;
   }
 
 
   function questionGate(gateSelector, questionId, destination, required) {
-  gate = document.querySelector(gateSelector);
+    showElement(gateSelector);
+
+    gate = document.querySelector(gateSelector);
     gate.addEventListener("click", () => {
   if (gate.getAttribute('visible') === false) return; // Don't respond if invisible
 
@@ -125,7 +117,7 @@
     console.log(t);
     
     //alert(t);
-    Toastify({text: t,duration: 3000, backgroundColor: "darkred"}).showToast();
+    Toastify({text: t,duration: 3000, style: {background: 'darkred'}}).showToast();
 
     return false;
   }
@@ -133,10 +125,11 @@
   // Find the question in the data
   if (questionId==0){
        if (destination) {
-        Toastify({text: "Congrats!! You can cross this gate",duration: 3000, backgroundColor: "green"}).showToast();
+        Toastify({text: "Congrats!! You can cross this gate",duration: 3000, style: {background: 'green'}}).showToast();
         window.location.href = destination;
+        return;
       }else{
-        Toastify({text: "Sorry, this gate DOES'NT GO anywhere!!",duration: 3000, backgroundColor: "darkred"}).showToast();
+        Toastify({text: "Sorry, this gate DOES'NT GO anywhere!!",duration: 3000, style: {background: 'darkred'}}).showToast();
 
       }
   }
@@ -164,8 +157,10 @@
 
     // Optionally hide or disable the gate in A-Frame
     if (gate && gate.setAttribute) {
-      gate.setAttribute('visible', false);
-      gate.setAttribute('collider', 'enabled', false);
+      hideElement(gateSelector);
+        
+
+      //gate.setAttribute('collider', 'enabled', false);
     }
 
     return true;
@@ -173,7 +168,7 @@
     let t="Incorrect answer! Access denied.";
     // Wrong answer - show message and block passage
     //alert("Incorrect answer! Access denied.");
-    Toastify({text: t,duration: 3000,  backgroundColor: "darkred"}).showToast();
+    Toastify({text: t,duration: 3000,  style: {background: 'darkred'}}).showToast();
 
     // Optionally add visual feedback to the gate
     if (gate && gate.setAttribute) {
@@ -189,11 +184,26 @@
 });
 }
 
+// Function to check a question and redirect if correct
+function checkQuestion(questionId, location) {
+
+  if (questions.length === 0) {
+    // alert("Questions not loaded yet. Try again.");
+    Toastify({text: t,duration: 3000}).showToast();
+    return;
+  }
+
+  let answer = prompt(questions[questionId].question);
+  if (answer && answer.toLocaleLowerCase() == questions[questionId].answer) {
+    document.location = location;
+  }
+}
+
 
 function catchableObject(targetSelector, varName, varValue = varName) {
   // If varValue is not provided, use varName as the value
   // Note: Default parameter varValue = varName handles this
-
+  showElement(targetSelector);
   // Find the target element(s)
   const targets = document.querySelectorAll(targetSelector);
 
@@ -207,7 +217,6 @@ function catchableObject(targetSelector, varName, varValue = varName) {
   targets.forEach(target => {
     target.addEventListener('click', function(event) {
       const clickedElement = event.target;
-
       if (clickedElement.getAttribute('visible') === false) return; // Don't respond if invisible
 
       // Set the localStorage variable
@@ -215,33 +224,59 @@ function catchableObject(targetSelector, varName, varValue = varName) {
 
       // Optional: Log confirmation
       console.log(`Clicked ${targetSelector}: Set localStorage.${varName} = "${varValue}"`);
-      if (varValue.startsWith("status ")) varValue = varValue.subsring(7);
-      let t="Has agafat "+ varValue;
-      //alert(t);
-      Toastify({text: t,duration: 3000,  backgroundColor: "green"}).showToast();
-      // Optional: Add visual feedback
+      if (varName.startsWith("status ")) {
+
+        varName = varName.subsring(7);
+      }
+      let t = "Has PERDUT! "+ varName;
+      if (varValue) {
+        t="Has agafat "+ varName;
+        Toastify({text: t,duration: 3000,   style: {background: 'green'}}).showToast();
       this.style.opacity = '0.7';
       setTimeout(() => {
         this.style.opacity = '1';
-        clickedElement.setAttribute('visible', false);
+        hideElement(targetSelector);
+
       }, 200);
+      }else{
+        t="Has PERDUT! "+ varName;
+        Toastify({text: t,duration: 3000,  style: {background: 'darkred'}}).showToast();
 
 
+      }
       updateStatusBar();
 
-      // Optional: Prevent event bubbling if needed
-      // event.stopPropagation();
+
+
     });
   });
 }
 
+// Function to make target visible when trigger is clicked
+  function clickShows(triggerSelector, targetSelector) {
+    trigger = document.querySelector(triggerSelector);
+    target = document.querySelector(targetSelector);
+    showElement(triggerSelector);    
+    trigger.addEventListener("click", () => {
+      showElement(targetSelector);
+    });
+  }
+
+  /******************************************************/
   window.addEventListener('load', () => {
 
     loadQuestions('assets/questions.json').then(data => {
       questions = data;
     }); 
 
+  document.querySelector('a-scene').addEventListener('loaded', () => {
+  document.querySelectorAll('a-entity, a-box, a-sphere').forEach(el => {
+    if (el.components.visible?.data != false) {
+      el.classList.add('aframe-clickable');
+    }
+  });
+});
+
     updateStatusBar();
   });
 
-  alert("cc");
