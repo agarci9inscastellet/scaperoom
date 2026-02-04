@@ -114,7 +114,8 @@ function showElement(targetSelector){
   // Check if the required localStorage variable exists and is not false
   if (required && (localStorage.getItem(required) === 'false' || localStorage.getItem(required) === null)) {
     //let t = `Access denied: ${required} requirement not met`;
-    let t = `Accés denegat: Has de trobar ${required}`;
+    let key = required.substring(7)
+    let t = `Accés denegat: Has de trobar ${key}`;
     console.log(t);
     
     //alert(t);
@@ -229,11 +230,11 @@ function catchableObject(targetSelector, varName, varValue = varName) {
 
       // Optional: Log confirmation
       console.log(`Clicked ${targetSelector}: Set localStorage.${varName} = "${varValue}"`);
-      if (varName.startsWith("status ")) {
+      if (varName.startsWith("status")) {
 
-        varName = varName.subsring(7);
+        varName = varName.substring(7);
       }
-      let t = "Has PERDUT! "+ varName;
+      let t = varName;
       if (varValue) {
         t="Has agafat "+ varName;
         Toastify({text: t,duration: 3000,   style: {background: 'green'}}).showToast();
