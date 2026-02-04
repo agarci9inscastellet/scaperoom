@@ -31,21 +31,30 @@ The questions are in the path assets/questions.json and have this structure
 
 <figure>
 [
+
 {
+
 "id": 0,
 "question": "Who is the artist?",
+
 "answer": "picasso"
 } ,
+
 {
+
 "id": 1,
 "question": "Secret code?",
 "answer": "1234"
 } ,
+
 {
+
 "id": 2,
 "question": "What are you studying?",
 "answer": "SMX"
+
 }
+
 ]
 </figure>
 QUESTION ZERO:
