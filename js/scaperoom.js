@@ -1,4 +1,11 @@
-
+/**
+ * scaperoom.js
+ * 
+ * A library working with a-frame to generate some "scaperoom" behaviour
+ * 
+ * 
+ * 
+ * */
 
 function hideElement(targetSelector){
     target = document.querySelector(targetSelector);
