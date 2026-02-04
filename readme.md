@@ -21,7 +21,7 @@ We can do catchableObject("#key1","status_key1", false); to remove a held object
 For example, you hold a torch with a flame. If you touch water, you lose the torch
 because it gets wet.
 
-· questionGate("#door", 1, "sala2.html");
+# · questionGate("#door", 1, "sala2.html");
 
 This function makes the click on"#door" show and evaluate question 1 (zero).
 If the user gets the answer right, they will be able to pass through the door by
@@ -55,12 +55,12 @@ The questions are in the path assets/questions.json and have this structure
 "question": "What are you studying?",
 "answer": "SMX"
 
-</figure>
+
 
 }
 
 ]
-
+</figure>
 QUESTION ZERO:
 
 We pass 0 as the question ID,NO questions will be asked. That is, it will check if you
@@ -74,9 +74,9 @@ has previously taken thecapital1
 
 ## IMPORTANT: If you want to hide any element, do it at the end of the code
 
-· hideElement("#door");
+# · hideElement("#door");
 
 Hides an element and makes it insensitive to clicks.
 
-· ShowElement("#door");
+# · ShowElement("#door");
 shows an item that was hidden
