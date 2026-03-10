@@ -1,77 +1,87 @@
 /**
  * scaperoom.js
- * 
+ *
  * A library working with a-frame to generate some "scaperoom" behaviour
- * 
- * 
- * 
+ *
+ *
+ *
  * */
 
-function hideElement(targetSelector){
-    target = document.querySelector(targetSelector);
+function hideElement(targetSelector) {
+  target = document.querySelector(targetSelector);
 
-      target.setAttribute('visible', false);
-      target.classList.remove('aframe-clickable');
+  target.setAttribute("visible", false);
+  target.classList.remove("aframe-clickable");
 }
-function showElement(targetSelector){
-    target = document.querySelector(targetSelector);
+function showElement(targetSelector) {
+  target = document.querySelector(targetSelector);
 
-      target.setAttribute('visible', true);
-      target.classList.add('aframe-clickable');
+  target.setAttribute("visible", true);
+  target.classList.add("aframe-clickable");
 }
-    
-    let questions = [];    
-    function loadToastify() {
-        // Load CSS
-        const cssLink = document.createElement('link');
-        cssLink.rel = 'stylesheet';
-        cssLink.href = 'https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css';
-        document.head.appendChild(cssLink);
 
-        // Load JS
-        const script = document.createElement('script');
-        script.src = 'https://cdn.jsdelivr.net/npm/toastify-js';
-        //script.onload = initScaperomm;
-        script.onerror = function() {
-            console.error('Failed to load Toastify.js');
-            // Fallback to native notifications or console logs
-            //initScaperomm();
-        };
-        document.head.appendChild(script);
-    }
-    loadToastify();
-    // Function to load questions from a JSON file
-    async function loadQuestions(fileName) {
-      try {
-        const response = await fetch(fileName);
-        const data = await response.json();
-        return data;
-      } catch (error) {
-        console.error('Error loading questions:', error);
-        return [];
-      }
-    }
-
-  function resetStatus(){
-        for (let i = 0; i < localStorage.length; i++) {
-          const key = localStorage.key(i);
-          const val = localStorage.getItem(key);
-          if (key.startsWith("status")){
-            localStorage.removeItem(key);
-
-          }
-         // updateStatusBar();
-    }
+// Function to check if a function has required parameters
+function paramFunction(func) {
+  // If no function provided, check window context
+  if (!func || typeof func !== "function") {
+    return false;
   }
-  
-  
-  // Function to update status bar
-  function updateStatusBar() {
-    // Create style if it doesn't exist
-    if (!document.getElementById('status-bar-style')) {
-      const style = document.createElement('style');
-      style.id = 'status-bar-style';
-      style.innerHTML = `
+  // Returns true if function has required parameters, false otherwise
+  // .length property returns the number of parameters
+  return true;
+}
+
+let questions = [];
+function loadToastify() {
+  // Load CSS
+  const cssLink = document.createElement("link");
+  cssLink.rel = "stylesheet";
+  cssLink.href =
+    "https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css";
+  document.head.appendChild(cssLink);
+
+  // Load JS
+  const script = document.createElement("script");
+  script.src = "https://cdn.jsdelivr.net/npm/toastify-js";
+  //script.onload = initScaperomm;
+  script.onerror = function () {
+    console.error("Failed to load Toastify.js");
+    // Fallback to native notifications or console logs
+    //initScaperomm();
+  };
+  document.head.appendChild(script);
+}
+loadToastify();
+// Function to load questions from a JSON file
+async function loadQuestions(fileName) {
+  try {
+    const response = await fetch(fileName);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error loading questions:", error);
+    return [];
+  }
+}
+
+function resetStatus() {
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    const val = localStorage.getItem(key);
+    if (key.startsWith("status")) {
+      localStorage.removeItem(key);
+    }
+    // updateStatusBar();
+  }
+}
+
+// Function to update status bar
+function updateStatusBar() {
+  // Create style if it doesn't exist
+  if (!document.getElementById("status-bar-style")) {
+    const style = document.createElement("style");
+    style.id = "status-bar-style";
+    style.innerHTML = `
         #status-bar {
           position: fixed;
           bottom: 0;
@@ -85,124 +95,144 @@ function showElement(targetSelector){
         }
         .status-key{border:2px solid white}
       `;
-      document.head.appendChild(style);
-    }
-
-    // Create HTML element if it doesn't exist
-    let statusBar = document.getElementById('status-bar');
-    if (!statusBar) {
-      statusBar = document.createElement('div');
-      statusBar.id = 'status-bar';
-      document.body.appendChild(statusBar);
-    }
-    
-    let statusContent = '';
-
-    for (let i = 0; i < localStorage.length; i++) {
-          const key = localStorage.key(i);
-          const val = localStorage.getItem(key);
-          if (key.startsWith("status") && val != "false"){
-              statusContent += '<span class="status-key">'+ val + '</span>' ;
-          }
-
-    }
-
-    statusBar.innerHTML = statusContent;
+    document.head.appendChild(style);
   }
 
-
-  function questionGate(gateSelector, questionId, destination, required) {
-    showElement(gateSelector);
-
-    gate = document.querySelector(gateSelector);
-    gate.addEventListener("click", () => {
-  if (gate.getAttribute('visible') === false) return; // Don't respond if invisible
-
-  // Check if the required localStorage variable exists and is not false
-  if (required && (localStorage.getItem(required) === 'false' || localStorage.getItem(required) === null)) {
-    //let t = `Access denied: ${required} requirement not met`;
-    let key = required.substring(7)
-    let t = `Accés denegat: Has de trobar ${key}`;
-    console.log(t);
-    
-    //alert(t);
-    Toastify({text: t,duration: 3000, style: {background: 'darkred'}}).showToast();
-
-    return false;
+  // Create HTML element if it doesn't exist
+  let statusBar = document.getElementById("status-bar");
+  if (!statusBar) {
+    statusBar = document.createElement("div");
+    statusBar.id = "status-bar";
+    document.body.appendChild(statusBar);
   }
 
-  // Find the question in the data
-  if (questionId==0){
-       if (destination) {
+  let statusContent = "";
+
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    const val = localStorage.getItem(key);
+    if (key.startsWith("status") && val != "false") {
+      statusContent += '<span class="status-key">' + val + "</span>";
+    }
+  }
+
+  statusBar.innerHTML = statusContent;
+}
+
+function questionGate(gateSelector, questionId, destination, required) {
+  showElement(gateSelector);
+
+  gate = document.querySelector(gateSelector);
+  gate.addEventListener("click", () => {
+    if (gate.getAttribute("visible") === false) return; // Don't respond if invisible
+
+    param_function = paramFunction();
+    if (
+      !param_function &&
+      required &&
+      (localStorage.getItem(required) === "false" ||
+        localStorage.getItem(required) === null)
+    ) {
+      //let t = `Access denied: ${required} requirement not met`;
+      let key = required.substring(7);
+      let t = `Accés denegat: Has de trobar ${key}`;
+      console.log(t);
+
+      //alert(t);
+      Toastify({
+        text: t,
+        duration: 3000,
+        style: { background: "darkred" },
+      }).showToast();
+
+      return false;
+    }
+
+    if (param_function) {
+      param_function();
+    }
+    // Find the question in the data
+    if (questionId == 0) {
+      if (destination) {
         //Toastify({text: "Congrats!! You can cross this gate",duration: 3000, style: {background: 'green'}}).showToast();
-        Toastify({text: "Felicitats!! Pots passar aquesta porta",duration: 3000, style: {background: 'green'}}).showToast();
+        Toastify({
+          text: "Felicitats!! Pots passar aquesta porta",
+          duration: 3000,
+          style: { background: "green" },
+        }).showToast();
         window.location.href = destination;
         return;
-      }else{
+      } else {
         //Toastify({text: "Sorry, this gate DOES'NT GO anywhere!!",duration: 3000, style: {background: 'darkred'}}).showToast();
-        Toastify({text:"Ho sento! Aquesta porta no porta enlloc",duration: 3000, style: {background: 'darkred'}}).showToast();
-
+        Toastify({
+          text: "Ho sento! Aquesta porta no porta enlloc",
+          duration: 3000,
+          style: { background: "darkred" },
+        }).showToast();
       }
-  }
-  const questionObj = questions[questionId];
+    }
+    const questionObj = questions[questionId];
 
-  if (!questionObj) {
-    //console.error(`Question with ID ${questionId} not found`);
-    console.error(`La pregunta ID ${questionId} no s'ha trobat`);
-    return false;
-  }
-
-  // Prompt the user with the question
-  const userAnswer = prompt(questionObj.question);
-
-  // Check if answer is correct (case-insensitive, trimmed)
-  if (userAnswer &&
-      userAnswer.trim().toLowerCase() === questionObj.answer.toLowerCase()) {
-
-    // Mark this question as answered in localStorage (optional)
-    localStorage.setItem(`question_${questionId}_answered`, 'true');
-
-    // Navigate to destination
-    if (destination) {
-      window.location.href = destination;
+    if (!questionObj) {
+      //console.error(`Question with ID ${questionId} not found`);
+      console.error(`La pregunta ID ${questionId} no s'ha trobat`);
+      return false;
     }
 
-    // Optionally hide or disable the gate in A-Frame
-    if (gate && gate.setAttribute) {
-      hideElement(gateSelector);
-        
+    // Prompt the user with the question
+    const userAnswer = prompt(questionObj.question);
 
-      //gate.setAttribute('collider', 'enabled', false);
+    // Check if answer is correct (case-insensitive, trimmed)
+    if (
+      userAnswer &&
+      userAnswer.trim().toLowerCase() === questionObj.answer.toLowerCase()
+    ) {
+      // Mark this question as answered in localStorage (optional)
+      localStorage.setItem(`question_${questionId}_answered`, "true");
+
+      // Navigate to destination
+      if (destination) {
+        window.location.href = destination;
+      }
+
+      // Optionally hide or disable the gate in A-Frame
+      if (gate && gate.setAttribute) {
+        hideElement(gateSelector);
+
+        //gate.setAttribute('collider', 'enabled', false);
+      }
+
+      return true;
+    } else {
+      //let t="Incorrect answer! Access denied.";
+      let t = "Resposta incorrecta! No pots passar!";
+      // Wrong answer - show message and block passage
+      //alert("Incorrect answer! Access denied.");
+      Toastify({
+        text: t,
+        duration: 3000,
+        style: { background: "darkred" },
+      }).showToast();
+
+      // Optionally add visual feedback to the gate
+      if (gate && gate.setAttribute) {
+        // Flash red or show denial effect
+        gate.setAttribute("material", "color", "#ff0000");
+        setTimeout(() => {
+          gate.setAttribute("material", "color", "#ffffff");
+        }, 500);
+      }
+
+      return false;
     }
-
-    return true;
-  } else {
-    //let t="Incorrect answer! Access denied.";
-    let t="Resposta incorrecta! No pots passar!";
-    // Wrong answer - show message and block passage
-    //alert("Incorrect answer! Access denied.");
-    Toastify({text: t,duration: 3000,  style: {background: 'darkred'}}).showToast();
-
-    // Optionally add visual feedback to the gate
-    if (gate && gate.setAttribute) {
-      // Flash red or show denial effect
-      gate.setAttribute('material', 'color', '#ff0000');
-      setTimeout(() => {
-        gate.setAttribute('material', 'color', '#ffffff');
-      }, 500);
-    }
-
-    return false;
-  }
-});
+  });
 }
 
 // Function to check a question and redirect if correct
 function checkQuestion(questionId, location) {
-
   if (questions.length === 0) {
     // alert("Questions not loaded yet. Try again.");
-    Toastify({text: t,duration: 3000}).showToast();
+    Toastify({ text: t, duration: 3000 }).showToast();
     return;
   }
 
@@ -211,7 +241,6 @@ function checkQuestion(questionId, location) {
     document.location = location;
   }
 }
-
 
 function catchableObject(targetSelector, varName, varValue = varName) {
   // If varValue is not provided, use varName as the value
@@ -227,69 +256,74 @@ function catchableObject(targetSelector, varName, varValue = varName) {
   }
 
   // Add click event listener to each target element
-  targets.forEach(target => {
-    target.addEventListener('click', function(event) {
+  targets.forEach((target) => {
+    target.addEventListener("click", function (event) {
       const clickedElement = event.target;
-      if (clickedElement.getAttribute('visible') === false) return; // Don't respond if invisible
+      if (clickedElement.getAttribute("visible") === false) return; // Don't respond if invisible
 
       // Set the localStorage variable
       localStorage.setItem(varName, varValue);
 
       // Optional: Log confirmation
-      console.log(`Clicked ${targetSelector}: Set localStorage.${varName} = "${varValue}"`);
+      console.log(
+        `Clicked ${targetSelector}: Set localStorage.${varName} = "${varValue}"`,
+      );
       if (varName.startsWith("status")) {
-
         varName = varName.substring(7);
       }
       let t = varName;
       if (varValue) {
-        t="Has agafat "+ varName;
-        Toastify({text: t,duration: 3000,   style: {background: 'green'}}).showToast();
-      this.style.opacity = '0.7';
-      setTimeout(() => {
-        this.style.opacity = '1';
-        hideElement(targetSelector);
-
-      }, 200);
-      }else{
-        t="Has PERDUT! "+ varName;
-        Toastify({text: t,duration: 3000,  style: {background: 'darkred'}}).showToast();
-
-
+        t = "Has agafat " + varName;
+        Toastify({
+          text: t,
+          duration: 3000,
+          style: { background: "green" },
+        }).showToast();
+        this.style.opacity = "0.7";
+        setTimeout(() => {
+          this.style.opacity = "1";
+          hideElement(targetSelector);
+        }, 200);
+      } else {
+        t = "Has PERDUT! " + varName;
+        Toastify({
+          text: t,
+          duration: 3000,
+          style: { background: "darkred" },
+        }).showToast();
       }
       updateStatusBar();
-
-
-
     });
   });
 }
 
 // Function to make target visible when trigger is clicked
-  function clickShows(triggerSelector, targetSelector) {
-    trigger = document.querySelector(triggerSelector);
-    target = document.querySelector(targetSelector);
-    showElement(triggerSelector);    
-    trigger.addEventListener("click", () => {
-      showElement(targetSelector);
+function clickShows(triggerSelector, targetSelector) {
+  trigger = document.querySelector(triggerSelector);
+  target = document.querySelector(targetSelector);
+  showElement(triggerSelector);
+  trigger.addEventListener("click", () => {
+    showElement(targetSelector);
+  });
+}
+
+/******************************************************/
+window.addEventListener("load", () => {
+  loadQuestions("assets/questions.json").then((data) => {
+    questions = data;
+  });
+
+  document.querySelector("a-scene").addEventListener("loaded", () => {
+    document.querySelectorAll("a-entity, a-box, a-sphere").forEach((el) => {
+      if (el.components.visible?.data != false) {
+        el.classList.add("aframe-clickable");
+      }
     });
+  });
+
+  updateStatusBar();
+
+  if (new URLSearchParams(window.location.search).has('clear')){
+      resetStatus();
   }
-
-  /******************************************************/
-  window.addEventListener('load', () => {
-
-    loadQuestions('assets/questions.json').then(data => {
-      questions = data;
-    }); 
-
-  document.querySelector('a-scene').addEventListener('loaded', () => {
-  document.querySelectorAll('a-entity, a-box, a-sphere').forEach(el => {
-    if (el.components.visible?.data != false) {
-      el.classList.add('aframe-clickable');
-    }
-  });
 });
-
-    updateStatusBar();
-  });
-

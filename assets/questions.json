@@ -6,12 +6,17 @@
   },
   {
     "id": 1,
-    "question": "Quin any va nèixer Naruto?",
-    "answer": "1712"
+    "question": "Como se llama el vecino?",
+    "answer": "Minguito"
   },
   {
     "id": 2,
     "question": "Secret code?",
     "answer": "12345"
+  },
+    {
+    "id": 3,
+    "question": "Question 3?",
+    "answer": "answer 3"
   }
 ]
